@@ -5,6 +5,8 @@ A notebook-based project for building and evaluating a convolutional neural netw
 ## Contents
 
 - `CIFAR10_CNN.ipynb` — Jupyter notebook containing the CIFAR-10 exploration and CNN workflow.
+- `app.py` — Streamlit interface for uploading an image and viewing predictions.
+- `requirements.txt` — Python dependencies for the Streamlit application.
 - `data/` — CIFAR-10 binary files, including five training batches, a test batch, and the class-label metadata.
 
 ## Dataset
@@ -32,6 +34,23 @@ python -m jupyter notebook
 
 Then open `CIFAR10_CNN.ipynb`.
 
+## Streamlit app
+
+The app needs the trained Keras model saved as `cifar10_cnn.keras`. After running the training cells in the notebook, save it once:
+
+```python
+model.save('cifar10_cnn.keras')
+```
+
+Install the app dependencies and launch the interface from the project directory:
+
+```bash
+python -m pip install -r requirements.txt
+python -m streamlit run app.py
+```
+
+Upload a JPG, PNG, WEBP, or BMP image in the browser. The app displays the predicted class, confidence score, top three probabilities, and the full ten-class probability table. Set `CIFAR10_MODEL_PATH` if the model is stored somewhere other than the project root.
+
 ## Loading the local dataset
 
 Run the following in a notebook cell when the current working directory is the project root:
@@ -47,7 +66,7 @@ def load_batch(filename):
     with open(data_dir / filename, "rb") as f:
         batch = pickle.load(f, encoding="bytes")
     images = batch[b"data"].reshape(-1, 3, 32, 32).transpose(0, 2, 3, 1)
-    labels = np.asarray(batch[b"labels"])[:, None]
+    labels = np.asarray(batch[b"labels"]).ravel()
     return images, labels
 
 train_batches = [load_batch(f"data_batch_{i}") for i in range(1, 6)]
