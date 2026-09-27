@@ -263,7 +263,11 @@ def main():
         with st.spinner('Loading the trained model...'):
             model = load_model(str(model_path))
     except ModuleNotFoundError:
-        st.error('TensorFlow is not installed in this environment. Install the app requirements and restart Streamlit.')
+        st.error(
+            'TensorFlow is not available to the Python interpreter running Streamlit. '
+            'Launch the app with the same Python environment used for the notebook, '
+            'or install the app requirements into the interpreter running Streamlit.'
+        )
         return
     except Exception as error:
         st.error(f'The model could not be loaded: {error}')

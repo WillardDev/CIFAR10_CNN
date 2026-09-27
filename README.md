@@ -42,12 +42,14 @@ The app needs the trained Keras model saved as `cifar10_cnn.keras`. After runnin
 model.save('cifar10_cnn.keras')
 ```
 
-Install the app dependencies and launch the interface from the project directory:
+Install the app dependencies and launch the interface from the project directory. Use the same Python interpreter that runs the notebook, because the `streamlit` command can point to a different environment. On this Mac, the TensorFlow-enabled interpreter is:
 
 ```bash
-python -m pip install -r requirements.txt
-python -m streamlit run app.py
+/Library/Frameworks/Python.framework/Versions/3.14/bin/python3 -m pip install -r requirements.txt
+/Library/Frameworks/Python.framework/Versions/3.14/bin/python3 -m streamlit run app.py
 ```
+
+On another setup, replace that path with the interpreter used for the notebook, such as `python3` or `python`.
 
 Upload a JPG, PNG, WEBP, or BMP image in the browser. The app displays the predicted class, confidence score, top three probabilities, and the full ten-class probability table. Set `CIFAR10_MODEL_PATH` if the model is stored somewhere other than the project root.
 
